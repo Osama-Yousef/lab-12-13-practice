@@ -1,0 +1,163 @@
+/* the new form */
+@media (min-width: 320px) {
+    form#book-form {
+        width: 14.86090775988287vw;
+        padding-bottom: 40px;
+        /* margin-bottom: 15px; */
+        padding: -39px;
+    }
+    .container {
+        padding-top: 30px;
+        background-color: #d4d4d4ad;
+        margin-bottom: 30px;
+        margin-top: 20px;
+        min-height: 80vh;
+        box-shadow: 7px 7px 5px #56848c;
+        width: 148%;
+        margin-left: -43px;
+    }
+    button#my-button {
+        /* padding-top: 4px; */
+        padding: 6px;
+        margin-top: 12px;
+        /* background-color: #7b9599; */
+        background-color: #7e979b;
+        color: white;
+        font-size: 14px;
+    }
+    form input {
+        padding: 11px;
+        margin: 10px;
+    }
+    section#my-section {
+        background-color: whitesmoke;
+        width: 86%;
+        margin: 0 auto;
+        text-align: center;
+        margin-bottom: 15px;
+        margin-top: 46px;
+        margin-left: 58px;
+    }
+    button.two-button {
+        margin-left: 238px;
+        padding: 7px;
+        margin-bottom: 11px;
+        width: 32.93265vw;
+        margin-top: 6px;
+        background-color: #7e979b;
+        color: white;
+        letter-spacing: 1px;
+    }
+    button#details-button {
+        background-color: #7e979b;
+        color: white;
+        padding: 5px;
+        width: 38.93265vw;
+    }
+/* header */
+.topnav {
+    overflow: hidden;
+    background-color: #333;
+    position: relative;
+    width: 137%;
+  }
+  h1 {
+    font-size: 20px;
+    height: 5.28vh;
+    text-align: center;
+    color: white;
+    background-color: gray;
+    padding: 20px;
+    font-family: 'PT Sans', sans-serif;
+    width: 126%;
+}
+    }
+      @media (min-width:425px){
+        button.two-button {
+            margin-left: 260px;
+            padding: 7px;
+            /* margin-bottom: 19px; */
+            width: 32.93265vw;
+            margin-top: 21px;
+            background-color: #7e979b;
+            color: white;
+            letter-spacing: 1px;
+        }
+        button#details-button {
+            background-color: #7e979b;
+            width: 16vw;
+        }
+        form#book-form {
+            width: 74%;
+            padding-bottom: 40px;
+            /* margin-bottom: 15px; */
+            padding: -39px;
+        }
+        button#my-button {
+            /* padding-top: 4px; */
+            padding: 6px;
+            margin-top: 12px;
+            /* background-color: #7b9599; */
+            background-color: #7e979b;
+            color: white;
+            font-size: 14px;
+        }
+        form {
+            display: grid;
+            width: 53vw;
+            margin-top: 34px;
+            margin-left: 18%;
+        }
+        form input {
+            padding: 11px;
+            margin: 10px;
+        }
+        section#my-section {
+            background-color: whitesmoke;
+            width: -11%;
+            width: 79%;
+            margin: 0 auto;
+            text-align: center;
+            margin-bottom: 15px;
+            margin-top: 70px;
+            min-height: 350px;
+        }
+        .container {
+            padding-top: 30px;
+            background-color: #d4d4d4ad;
+            margin-bottom: 30px;
+            margin-top: 20px;
+            min-height: 80vh;
+            box-shadow: 7px 7px 5px #56848c;
+            width: 83%;
+            margin: 0 auto;
+            /* text-align: -webkit-center; */
+        }
+        button.two-button {
+            margin-left: 340px;
+            padding: 10px;
+            margin-bottom: 11px;
+            width: 28.93265vw;
+            margin-top: 25px;
+            background-color: #7e979b;
+            color: white;
+            letter-spacing: 1px;
+        }
+        /* header */
+        .topnav {
+            overflow: hidden;
+            background-color: #333;
+            position: relative;
+            width: 100%;
+          }
+          h1 {
+            font-size: 20px;
+            height: 5.28vh;
+            text-align: center;
+            color: white;
+            background-color: gray;
+            padding: 20px;
+            font-family: 'PT Sans', sans-serif;
+            width: 97%;
+        }
+      }

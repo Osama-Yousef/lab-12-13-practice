@@ -1,0 +1,17 @@
+<!-- for lab 13 (updating) -->
+<!-- we didnt use iteration for form because details page have just one book details and form for updating for this oneee book just -->
+<!-- form for updating incudes book info. and button and drop down menu  -->
+<form action="/update/<%= data.id%>?_method=put" method="post" class="form-container" ><!-- using method override  -->
+   
+    <input type="text" name="title" value="<%= data.title%>" />
+    <input type="text" name="author"  value="<%= data.author%>"/>
+    <input type="text" name="isbn" value="<%= data.isbn%>" />
+    <input type="text" name="image_url" value="<%= data.image_url %>" > 
+    <input type="text" name="description" value="<%= data.description%>" />
+    <select name="bookshelf"> 
+        <%arrOfBookSh.forEach(val =>{%>
+          <option value="<%=val.bookshelf%>"><%=val.bookshelf%></option>
+        <% }) %>
+    </select>  
+    <button type="submit">Update book</button>
+    </form>

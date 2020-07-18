@@ -1,0 +1,43 @@
+<!-- this  is the seach form page  -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <%- include ('../../layout/head') %>
+  <link rel="stylesheet" href="../styles/modules/new-mod.css">
+
+</head>
+<body>
+<!-- Top Navigation Menu -->
+<%- include ('../../layout/header') %>
+    <header>
+        <h1> Search by Title or Author </h1>
+    </header>
+
+    <main>
+      <!-- searching form  -->
+        <form action="/searches" method="post">
+        <input type="text" placeholder="Enter a Title or Author" name="search" required><br>
+        <label>Title
+        <input type="radio" name="radio" value="title" class="first-radio" required>
+        </label><br>
+        <label>Author
+        <input type="radio" name="radio" value="author" required>
+        </label><br>
+        <button>Search for Google Books API </button>
+      </form>
+      <!-- end of searching form  -->
+    </main>
+
+    <!-- for hambrger menu  -->
+    <script>
+        function myFunction() {
+          var x = document.getElementById("myLinks");
+          if (x.style.display === "block") {
+            x.style.display = "none";
+          } else {
+            x.style.display = "block";
+          }
+        }
+        </script>
+</body>
+</html>

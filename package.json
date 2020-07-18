@@ -1,0 +1,29 @@
+{
+  "name": "lab-12-13-practice",
+  "version": "1.0.0",
+  "description": "( the book app + db )",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Osama-Yousef/lab-12-13-practice.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Osama-Yousef/lab-12-13-practice/issues"
+  },
+  "homepage": "https://github.com/Osama-Yousef/lab-12-13-practice#readme",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "dotenv": "^8.2.0",
+    "ejs": "^3.1.3",
+    "express": "^4.17.1",
+    "method-override": "^3.0.0",
+    "pg": "^8.3.0",
+    "superagent": "^5.3.1"
+  }
+}

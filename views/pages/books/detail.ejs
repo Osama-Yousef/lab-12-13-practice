@@ -1,0 +1,14 @@
+<!-- here will be the rendering process in the details page for all informations about oneee book justtt -->
+<%- include ('../../layout/head') %>
+<link rel="stylesheet" href="../styles/modules/det-mod.css">
+<section id="my-section">
+
+  <!-- note that below we put data.  not val. because we use val.  when we use for each and want to render all books -->
+  <img src="<%= data.image_url %>">
+  <h3><%= data.title%></h3>
+  <h4><%= data.author %></h4>
+  <p><%= data.description %></p>
+  <p><%= data.isbn %></p>
+  <p><%= data.bookshelf %></p>
+</section>
+    

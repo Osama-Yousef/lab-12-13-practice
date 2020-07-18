@@ -1,0 +1,13 @@
+@media (min-width: 425px){
+    form {
+        display: grid;
+        width: 61vw;
+        /* margin-top: 200px; */
+        margin-left: 13%;
+        margin: 0 auto;
+        padding-top: 50px;
+    }
+    input.first-radio {
+        margin-left: 118px;
+    }
+    }

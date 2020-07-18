@@ -1,0 +1,58 @@
+<!-- the details page will be here -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <!-- here we use the partial for head part because its constant for each view -->
+    <%- include ('../../layout/head') %> 
+</head>
+<body>
+    <!-- Top Navigation Menu -->
+    <!-- we use partials here for nav menu that have title and hamberger menu -->
+    <%- include ('../../layout/header') %>
+    <header>
+      <h1>Details</h1>
+    </header>
+
+<!-- here will be the rendering process but we used the partials concept so we put
+the ejs syntax in detail.ejs and include it here (just like that)  -->
+<!-- note below that we didnt use forEach because we want the details just for one specific book (importanttt) -->
+    <main id="indexMain">
+        <div class="container">
+        <%- include ('./detail') %> 
+
+        <!-- for lab 13 (updating and delete ) -->
+        <!-- to make the buttons and include the form -->
+
+        <!-- for update -->
+        <button class="two-button  hide_btn" > Update Details </button>
+        <div id="update">
+          <%- include ('./edit') %>
+        </div>
+        <!-- for delete  -->
+        <form action="/delete/<%= data.id%>?_method=delete" method="POST">
+          <button class="two-button del-button"> Delete Book</button>
+        </form>    
+
+        <!-- end  -->
+
+    </div>
+    </main>
+<!-- end of rendering process  -->
+
+<script src="https://code.jquery.com/jquery-3.4.1.js" integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU="
+crossorigin="anonymous"></script>
+<script src="../js/app.js"></script>
+
+<!-- for hambrger menu -->
+    <script>
+        function myFunction() {
+          var x = document.getElementById("myLinks");
+          if (x.style.display === "block") {
+            x.style.display = "none";
+          } else {
+            x.style.display = "block";
+          }
+        }
+        </script>
+</body>
+</html>

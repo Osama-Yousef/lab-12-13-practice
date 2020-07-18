@@ -1,0 +1,56 @@
+
+<!-- index represent the home page in the app which has counter and our collection -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Books</title>
+    <link rel="stylesheet" href="styles/reset.css">
+    <link rel="stylesheet" href="styles/base.css">
+    <link rel="stylesheet" href="styles/modules.css">
+    <link rel="stylesheet" href="styles/layout.css">
+    <link rel="stylesheet" href="styles/icons.css">
+    <link rel="stylesheet" href="../styles/modules/index-mod.css">
+</head>
+<body>
+    <!-- Top Navigation Menu // that have hamberger menu and the title best book! -->
+    <!-- we make folder (layout) contains  html code that will duplicate in more than view --- so we used partials here  -->
+    <%- include ('../layout/header') %> <!--    we used partials go and see header what it has    -->
+    <header>
+        <h1><%=data.length%> Saved Books</h1> <!--  <%=data.length%> to make the counter    -->
+    </header>
+    <!-- here we will make the view details button and render process for just(image , title, author) (see the app to understand) -->
+    <main id="indexMain">
+      <% data.forEach(val => { %>    
+          <!--usually we put rendered things in div with class , so div will act like container for all things  -->
+       <!-- notice that if you want everything to have some things we put it inside ejs process ex title,auth,img,button for each book -->
+          <div class="container">
+            <img src="<%= val.image_url %>">
+            <h3><%= val.title%></h3>
+            <h4><%= val.author %></h4>
+            <a href="/books/<%=val.id%>"><button class="view-button"> View Details </button></a>     <!-- we put the button tag inside a tag because he wants from us that when we click this button we must moving to detalils page which end point for it is /books/:id-->
+
+        </div>
+        <% }) %>
+
+        <!-- for lab 13 (updating ) -->
+        <!-- this line to make sure that the default value in menu will be the current book bookshelf -->
+        <% data = []%>
+<!-- end -->
+
+    </main>
+    <!-- end of ejs(rendering) process -->
+    <!-- now home page is ready but the code bellow is for hambarger menu (show or hide) -->
+    <script>
+        function myFunction() {
+          var x = document.getElementById("myLinks");
+          if (x.style.display === "block") {
+            x.style.display = "none";
+          } else {
+            x.style.display = "block";
+          }
+        }
+        </script>
+</body>
+</html>

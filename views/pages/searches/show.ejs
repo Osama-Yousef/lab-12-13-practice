@@ -1,0 +1,88 @@
+<!-- this is search results page  -->
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <%- include ('../../layout/head') %>
+  <link rel="stylesheet" href="../styles/modules/show-mod.css">
+</head>
+
+<body>
+  <!-- top nav menu using partials  -->
+  <%- include ('../../layout/header') %>
+  <!-- End smartphone / tablet look -->
+  
+  <header>
+    <h1> Search Result</h1>
+  </header>
+
+  <!-- starting rendering for books info. and (select this book and add to db ) buttons and the hidden form for eachhhhhh book -->
+
+  <main id="showMain">
+    <% data.forEach(val => { %>
+    <div class="container">
+      <!-- rendering book info. -->
+      <img src="<%= val.image_url %>">
+      <h3><%= val.title%></h3>
+      <h4><%= val.author %></h4>
+      <p><%= val.description%></p>
+      <!-- making select this book button  -->
+      <button class="open-button hide_btn" onclick="openForm()">Select This Book</button>
+      <!------------------------------- form section ------------------------>
+      <!-- he said that the form will be  (post request for /books) -->
+      <!-- name=...  this from tha names of properties in the table  -->
+      <form action="/books" method="POST" id="book-form" class="form-container">
+        <input type="text" name="image_url" value="<%= val.image_url %>" style="display: none;">
+        <input type="text" name="title" value="<%= val.title%>" />
+        <input type="text" name="author" value="<%= val.author%>" />
+        <input type="text" name="isbn" value="<%= val.isbn%>" />
+        <input type="text" name="description" value="<%= val.description%>" />
+        <input type="text" name="bookShelf" placeholder="Enter the shelf name !" required /> <!-- note that here we didnt add value because we want empty field , we put required too to force us to write anything in the field-->
+          <!--      adding ( add to db) button -->
+        <button type="submit">Add to Database </button><!-- note : add to db is button of type submit for a form with action= /books and post type so when i click on the button thenn the function (savetodb) will run because its route /books and post type (the same with the form ) -->
+
+      </form>
+      <!-----------------------     end of form   ----------------------------------------------------------->
+    </div>
+    <% }) %>
+  </main>
+          <!-- end of renderingggggg -->
+
+          <!-- to use jquery  -->
+  <script src="https://code.jquery.com/jquery-3.4.1.js" integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU="
+    crossorigin="anonymous"></script>
+      <!-- to link with app.js that contain jquery code for showing/hiding the form  -->
+      <!-- go and see app.js file in public/js/app.js -->
+  <script src="../js/app.js"></script>
+
+
+  <!-- for hambrger menu -->
+  <script>
+    function myFunction() {
+      var x = document.getElementById("myLinks");
+      if (x.style.display === "block") {
+        x.style.display = "none";
+      } else {
+        x.style.display = "block";
+      }
+    }
+
+  </script>
+
+
+
+<!-- for showing and hiding the form (not working ) -->
+  <script>
+
+    function openForm() {
+      document.getElementById("myForm").style.display = "block";
+    }
+    function closeForm() {
+      document.getElementById("myForm").style.display = "none";
+    }
+  </script>
+
+
+</body>
+</html> 
