@@ -1,48 +1,96 @@
 'use strict';
+// requierment
+
 require('dotenv').config();
+
+// application dependencies ( getting the libraries)
+
 const express = require('express');
 const pg = require('pg');
+const superagent = require('superagent');
+const cors = require('cors');
+const methodOverRide = require('method-override') // for lab 13(update and delete)
+
+//main variables( application setup)
+
+
 const PORT = process.env.PORT || 3030;
 const app = express();
-const superagent = require('superagent');
+const client = new pg.Client(process.env.DATABASE_URL);
+
+//uses
+
+
+
 app.use(express.static('./public'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.set('view engine', 'ejs');
-const client = new pg.Client(process.env.DATABASE_URL);
-
-// for lab 13 (update and delete)
-const methodOverRide = require('method-override') 
-app.use(methodOverRide('_method'))
-//end
+app.use(methodOverRide('_method')) // lab 13 (update and delete)
+app.use(cors());
 
 
 
-//===============Routs=================\\
+//listen to port
+
+client.connect()
+  .then(() => {
+    app.listen(PORT, () => {
+      console.log(`Listening on PORT ${PORT}`)
+    })
+  }) 
 
 
 
 
-//===============Callback Functions=================\\
+//===============Routs definitions =================\\
+app.get('/', getDataFromDB); 
+app.get('/index',getDataFromDB);
+//========================================\\
+app.get('/books/:bookID', detailsFun); 
+app.post('/books', saveToDB);
+app.get('/searches/new', newSearch); // route for the search form page
+app.put('/update/:update_book', newUpdate); // end point for PUT req and callback fun to do updating process
+app.delete('/delete/:deleted_book',deletBook);
 
-// we made suitable call back  for each route to make app load quickly and run quick and efficiently
+app.get('*', notFoundHandler);
+
+
+
+
+//===============Callback Functions (route handlers)=================\\
+
+// we made suitable call back (route handlers) for each route to make app load quickly and run quick and efficiently
 
 
 // to render the books from db(my collection) on the homepage (which it is end point is / or /index) anddd we will make the counter on home page
 
-app.get('/', getDataFromDB); // getDataFromDB is the call back function
 
-app.get('/index',getDataFromDB);
-//========================================\\
 function getDataFromDB(req, res) {
   const SQL = 'SELECT * FROM books;'; // books is the name of table
   return client.query(SQL)
   .then(result => {
     res.render('./pages/index', { data: result.rows }) // path for index.ejs (represent home page) because rendering will be on home page and ejs process will be in index.ejs sooo this path represent always the view that will have rendering process // data is name from us contains all thr table(data) , data will be used when working with ejs process// { data: result.rows } represent the thing that rendering will happen from it which is db sooo this always will represent the db when we want to render from db 
   })
+  .catch((err) => {
+    errorHandler(err, req, res);
+  });
+
 } 
 
 // now we need to make the constructor function
+
+function Book(value) {
+  // we didint add the bookshelf here because we will enter its value in the form 
+  // el ttabo3 is easy and we made it for most the properties here in lab 11 
+  // we made if statement (with new method in one line ) for each property in case the book doesnt contain value for any property,so we determined what the values will be for each property 
+  this.image_url = value.volumeInfo.imageLinks.smallThumbnail ? value.volumeInfo.imageLinks.smallThumbnail : 'https://www.freeiconspng.com/uploads/book-icon--icon-search-engine-6.png';
+  this.title = value.volumeInfo.title ? value.volumeInfo.title : 'No book with this title';
+  this.author = value.volumeInfo.authors[0] ? value.volumeInfo.authors[0] : 'No books for this author';
+  this.description = value.volumeInfo.description ? value.volumeInfo.description : '....';
+  this.isbn = value.volumeInfo.industryIdentifiers[0].type + value.volumeInfo.industryIdentifiers[0].identifier ? value.volumeInfo.industryIdentifiers[0].type + value.volumeInfo.industryIdentifiers[0].identifier : '000000'; // industryIdentifiers[0] we put it like this because its array , and this array contains 2 properties (type and identifier) , look at json data to undertand it clearly 
+}
+
 // then we will go to index.ejs to prepare it at all and do ejs(rendering) process there and making counter
 
 
@@ -67,7 +115,6 @@ function getDataFromDB(req, res) {
 //** end point is /books/:id with get request 
 
 
-app.get('/books/:bookID', detailsFun); //this is call back function for our route
 
 function detailsFun(req, res) {
   let saveId = [req.params.bookID]; // to store the id for specific book
@@ -88,7 +135,13 @@ function detailsFun(req, res) {
   .then(result => {
     res.render('./pages/books/show', { data: result.rows[0]  //./pages/books/show represent the view that will have rendering process(ejs syntax )
   , arrOfBookSh : arrOfBookSh }) // this line just for lab 13 (updating process)
-  })                                                                         // { data: result.rows[0] } represent the db when we want to render from db , and here we put [0] because we want to render specific book details 
+  })                                  // { data: result.rows[0] } represent the db when we want to render from db , and here we put [0] because we want to render specific book details 
+
+  .catch((err) => {
+    errorHandler(err, req, res);
+  });
+  
+  
 }
 
 
@@ -111,7 +164,6 @@ function detailsFun(req, res) {
 // end point /books (post request) (given) 
 // and making redirect to details page 
 
-app.post('/books', saveToDB);
 
 function saveToDB(req, res) {
   let ln;
@@ -145,6 +197,9 @@ const SQL2 = 'SELECT * FROM books WHERE title =$1;';
       ln=result.rows[0].id;
       res.redirect(`/books/${ln}`);
     })
+    .catch((err) => {
+      errorHandler(err, req, res);
+    });
 }
 
 
@@ -185,7 +240,6 @@ const SQL2 = 'SELECT * FROM books WHERE title =$1;';
 
 // solution is the code below and all the code in viws/pages/searches/new
 
-app.get('/searches/new', newSearch); // route for the search form page
 
 
 function newSearch (req, res) {
@@ -228,8 +282,7 @@ app.post('/searches', (request, response) => {
 
 // solution 
 // will be the code below + edit.ejs + detail page(views/pages/books/show) + index.ejs (just one line ) + save to db fun + details fun + 2 lines in the top
-
-app.put('/update/:update_book', newUpdate); // end point for PUT req and callback fun to do updating process
+ 
 
 function newUpdate (req , res){
   //collect
@@ -243,6 +296,10 @@ function newUpdate (req , res){
     .then(()=>{
       res.redirect(`/books/${idParam}`); // redirect to details page which route is (/books/id for book)
     })
+    .catch((err) => {
+      errorHandler(err, req, res);
+    });
+
 }
 
 
@@ -265,7 +322,6 @@ function newUpdate (req , res){
 // sol in : the code below + details page  +  2 lines in the top
 
 
-app.delete('/delete/:deleted_book',deletBook);
 
 function deletBook(req,res){
   let idParam = req.params.deleted_book;
@@ -275,6 +331,10 @@ function deletBook(req,res){
     .then(()=>{
       res.redirect('/');
     })
+    .catch((err) => {
+      errorHandler(err, req, res);
+    });
+
 }
 
 
@@ -282,27 +342,8 @@ function deletBook(req,res){
 
 
 
-
-
-
-
-
 //========================================\\
-
-// this is the constructor function
-
-function Book(value) {
-  // we didint add the bookshelf here because we will enter its value in the form 
-  // el ttabo3 is easy and we made it for most the properties here in lab 11 
-  // we made if statement (with new method in one line ) for each property in case the book doesnt contain value for any property,so we determined what the values will be for each property 
-  this.image_url = value.volumeInfo.imageLinks.smallThumbnail ? value.volumeInfo.imageLinks.smallThumbnail : 'https://www.freeiconspng.com/uploads/book-icon--icon-search-engine-6.png';
-  this.title = value.volumeInfo.title ? value.volumeInfo.title : 'No book with this title';
-  this.author = value.volumeInfo.authors[0] ? value.volumeInfo.authors[0] : 'No books for this author';
-  this.description = value.volumeInfo.description ? value.volumeInfo.description : '....';
-  this.isbn = value.volumeInfo.industryIdentifiers[0].type + value.volumeInfo.industryIdentifiers[0].identifier ? value.volumeInfo.industryIdentifiers[0].type + value.volumeInfo.industryIdentifiers[0].identifier : '000000'; // industryIdentifiers[0] we put it like this because its array , and this array contains 2 properties (type and identifier) , look at json data to undertand it clearly 
-}
-
-//========================================\\
+//error handlers
 
 
 function errorHandler(err, req, res) {
@@ -311,18 +352,11 @@ function errorHandler(err, req, res) {
 
 //========================================\\
 
-app.get('*', notFoundHandler);
 
 function notFoundHandler(req, res) {
-  res.status(404).send('This route does not exist!!');
+  res.status(404).send('This route does not exist!!'); // or the message ( page not found)
 }
 
 //========================================\\
 
 
-client.connect()
-  .then(() => {
-    app.listen(PORT, () => {
-      console.log(`Listening on PORT ${PORT}`)
-    })
-  }) 
